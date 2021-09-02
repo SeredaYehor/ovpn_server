@@ -1,0 +1,20 @@
+- hosts: all
+  gather_facts: yes
+  tasks:
+
+    - name: Get ovpn docker container name
+      shell: docker ps -a | grep "ovpn_run" | awk '{ print("%d", $12) }'
+      register: image_name
+
+    - name: Copy ExpectDeleteUser script
+      copy:
+        src: /server/expect_scripts/ExpectDeleteUser
+        dest: /scripts/ExpectDeleteUser
+        mode: "0777"
+
+    - debug:
+        msg: "{{ image_name.stdout }}"
+
+    - name: Delete VPN User {{ name }}
+      shell: /scripts/ExpectDeleteUser {{ image_name.stdout.split()[1] }} {{ name }} {{ openvpn_master_password }}
+ 

@@ -1,0 +1,68 @@
+- hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Install base utils
+      apt:
+        pkg:
+          - expect
+          - curl
+          - dnsutils
+        state: present
+        update_cache: yes
+
+    - name: Create folder for scripts
+      file:
+        state: directory
+        path: /scripts
+
+    - name: Create folder for users
+      file:
+        state: directory
+        path: /users
+
+    - name: Download files from docker.com
+      uri:
+        url: https://get.docker.com
+        return_content: yes
+      register: curl_res
+
+    - name: Write curl output to file get-docker.sh
+      copy:
+        content: "{{ curl_res.content }}"
+        dest: /scripts/get-docker.sh
+        mode: "0777"
+
+    - name: Execute get-docker.sh script
+      shell: /scripts/get-docker.sh
+
+    - name: Copy SetupVPN script
+      copy:
+        src: /server/setupVPN.sh
+        dest: /scripts/setupVPN.sh
+        mode: "0777"
+
+    - name: Copy AddVPNUser script
+      copy:
+        src: /server/addVPNUser.sh
+        dest: /scripts/addVPNUser.sh
+        mode: "0777"
+
+    - name: Copy expect script ExpectSetupVPN
+      copy:
+        src: /server/expect_scripts/ExpectSetupVPN
+        dest: /scripts/ExpectSetupVPN
+        mode: "0777"
+
+    - name: Copy expect script ExpectAddUserVPN
+      copy:
+        src: /server/expect_scripts/ExpectAddUserVPN
+        dest: /scripts/ExpectAddUserVPN
+        mode: "0777"
+
+    - name: Start ExpectSetupVPN
+      shell: /scripts/ExpectSetupVPN {{ openvpn_master_password }}
+
+    - name: Start ExpectAddUserVPN
+      shell: /scripts/ExpectAddUserVPN ubuntu {{ openvpn_master_password }}
+      args:
+        chdir: /users
