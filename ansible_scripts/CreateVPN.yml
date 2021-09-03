@@ -37,13 +37,13 @@
 
     - name: Copy SetupVPN script
       copy:
-        src: /server/setupVPN.sh
+        src: /server/server_scripts/setupVPN.sh
         dest: /scripts/setupVPN.sh
         mode: "0777"
 
     - name: Copy AddVPNUser script
       copy:
-        src: /server/addVPNUser.sh
+        src: /server/server_scripts/addVPNUser.sh
         dest: /scripts/addVPNUser.sh
         mode: "0777"
 
