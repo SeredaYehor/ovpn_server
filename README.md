@@ -1,6 +1,6 @@
 # VPN Server Manager
 
-These project managed to help easily setup VPN server with ability of creating and deleting ovpn users.
+This project managed to help easily setup VPN server with ability of creating and deleting ovpn users.
 
 ## How to use:
 
