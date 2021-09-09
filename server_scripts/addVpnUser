@@ -1,3 +1,0 @@
-#!/bin/bash
-
-ansible-playbook -i /server/hosts --extra-vars "name=${1}" /server/ansible_scripts/addVpnUser.yml
