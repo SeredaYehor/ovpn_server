@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 target=$(find /media -name "*.ovpn")
 file=$(echo "$target" | awk -F "/" '{print $NF}')
 cp "$target" /etc/openvpn/$file
