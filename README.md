@@ -4,10 +4,10 @@ This project managed to help easily setup OpenVPN-Server with ability of creatin
 
 ## How to use:
 
-###1. Setup VPN server: ./setupServer <ip_address>
-###2. Creating of VPN user: ./addUser <name>
-###3. Deleting existing VPN user: ./deleteUser <name>
-###4. Loading VPN configuration file from usb to thin client: ./LoadVpnFile
+1. Setup VPN server: ./setupServer <ip_address>
+2. Creating of VPN user: ./addUser <name>
+3. Deleting existing VPN user: ./deleteUser <name>
+4. Loading VPN configuration file from usb to thin client: ./LoadVpnFile
 
 All commands which you will need to work with server manager are stored in _/server/server_scripts_ directory.  
 First and foremost, execute script _setupServer_ with **<ip_address>** of your server.
