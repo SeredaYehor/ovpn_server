@@ -1,0 +1,18 @@
+#! /bin/bash
+
+name=${1}
+version=${2}
+port=${3}
+password=${4}
+
+if [[ -z ${name} || -z ${version} || -z ${port} || -z ${password} ]]
+then
+    echo
+    echo -e "[  \e[0;31m!!!\e[0m  ]   Error! Arguments missed!"
+    echo
+    echo "Usage example: createWorkstation Identifier xfce 5901 Password"
+    echo
+    exit 1
+fi
+
+docker run -dt --user $(id -u):$(id -g) -p ${port}:5901 -e VNC_PW=${password} --name ${name} studentvnc${version}
