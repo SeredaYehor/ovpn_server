@@ -1,3 +1,4 @@
 #!/bin/bash
+[ -z ${1} ] && echo "Use: ${0} userNameToBeAdded" && exit 1
 
-ansible-playbook -i /server/hosts --extra-vars "name=${1}" /server/ansible_scripts/addVpnUser.yml
+ansible-playbook -i ./VPNserver/hosts --extra-vars "name=${1}" ./VPNserver/ansible_scripts/addVpnUser.yml
