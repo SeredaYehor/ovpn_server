@@ -3,9 +3,8 @@
 
 target=$(find /media -name "*.ovpn")
 file=$(echo "$target" | awk -F "/" '{print $NF}')
-cp "$target" /etc/openvpn/$file
-mv /etc/openvpn/$file  /etc/openvpn/$(echo $file | sed 's/.ovpn/.conf/')
+mv "$target"  /etc/openvpn/$(echo $file | sed 's/.ovpn/.conf/')
 cd /etc/openvpn
-systemctl enable openvpn@$(echo $file | sed 's/.ovpn//')
-reboot -p
+#systemctl enable openvpn@$(echo $file | sed 's/.ovpn//')
+#reboot -p
 echo "End of executing script"
