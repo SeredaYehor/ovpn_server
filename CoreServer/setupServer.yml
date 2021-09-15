@@ -1,0 +1,59 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install base utils
+      apt:
+        pkg:
+          - htop
+          - mc
+          - ctop
+        state: present
+        update_cache: yes
+
+    - name: Download Docker installation script
+      get_url:
+        url: https://get.docker.com
+        dest: /tmp/installDocker.sh
+        owner: "root"
+        mode: "0777"
+
+    - name: Execute Docker installation script
+      shell: /tmp/installDocker.sh
+
+    - name: Create directory in ~/ for OS images source files
+      file:
+        path: /home/admin/sourceFiles
+        state: directory
+
+    - name: Copy necessary resources for building OS images
+      copy:
+        src: ./images
+        dest: /home/admin/sourceFiles/
+        owner: "root"
+        mode: "0777"
+
+    - name: Building XFCE version of OS
+      shell: /home/admin/sourceFiles/images/buildContainer.sh xfce
+
+    - name: Building ICEWM version of OS
+      shell: /home/admin/sourceFiles/images/buildContainer.sh icewm
+
+    - name: Installing OpenVPN client
+      apt:
+        pkg:
+          - openvpn
+        state: present
+
+    - name: Copying createWorkstation script to /bin
+      copy:
+        src: ./serverScripts/createWorkstation
+        dest: /bin/
+        owner: "root"
+        mode: "0777"
+
+    - name: Copying destroyWorkstation script to /bin
+      copy:
+        src: ./serverScripts/destroyWorkstation
+        dest: /bin/
+        owner: "root"
+        mode: "0777"

@@ -1,0 +1,19 @@
+#! /bin/bash
+
+target_ip=${1}
+name=${2}
+version=${3}
+port=${4}
+password=${5}
+
+if [[ -z ${target_ip} || -z ${name} || -z ${version} || -z ${port} || -z ${password} ]]
+then
+    echo
+    echo -e "[  \e[1;31m!!!\e[0m  ]   Error! Arguments missing!"
+    echo
+    echo "Usage example: ./createWorkstation target_ip_addr Identifier xfce 5901 Password"
+    echo
+    exit 1
+fi
+
+ssh admin@$target_ip "sudo docker run -dt --user $(id -u):$(id -g) -p $port:5901 -e VNC_PW=$password --name $name studentvnc$version"
