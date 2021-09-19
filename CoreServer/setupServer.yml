@@ -29,7 +29,6 @@
       copy:
         src: ./images
         dest: /home/admin/sourceFiles/
-        owner: "root"
         mode: "0777"
 
     - name: Building XFCE version of OS
@@ -44,16 +43,25 @@
           - openvpn
         state: present
 
-    - name: Copying createWorkstation script to /bin
+    - name: Copying createWorkstation script to /usr/local/bin
       copy:
         src: ./serverScripts/createWorkstation
-        dest: /bin/
-        owner: "root"
+        dest: /usr/local/bin/
         mode: "0777"
 
-    - name: Copying destroyWorkstation script to /bin
+    - name: Copying destroyWorkstation script to /usr/local/bin
       copy:
         src: ./serverScripts/destroyWorkstation
-        dest: /bin/
-        owner: "root"
+        dest: /usr/local/bin/
         mode: "0777"
+
+    - name: Copying .ovpn file to /usr/local/bin
+      copy:
+        src: ../VPNserver/server.ovpn
+        dest: /usr/local/bin/
+
+    - name: Changing ovpn file to config
+      shell: mv /usr/local/bin/server.ovpn /usr/local/bin/server.conf
+
+    - name: Start openvpn server
+      shell: systemctl start openvpn-server@server.conf
