@@ -1,3 +1,0 @@
-#! /bin/bash
-
-ansible-playbook -i ./VPNserver/hosts  -vvv ./CoreServer/setupServer.yml
