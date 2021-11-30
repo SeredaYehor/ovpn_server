@@ -1,8 +1,0 @@
-#!/bin/bash
-
-new=$1
-target=`grep -oE '\bansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}\b' ./VPNserver/hosts`
-sed -i 's/'$target'/ansible_host='${new}'/g' ./VPNserver/hosts
-grep -oE '\bansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}\b' ./VPNserver/hosts
-
-ansible-playbook -i ./VPNserver/hosts ./VPNserver/ansible_scripts/CreateVPN.yml
