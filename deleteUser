@@ -1,4 +1,0 @@
-#!/bin/sh
-[ -z ${1} ] && echo "Use: ${0} userNameToBeAdded" && exit 1
-
-ansible-playbook -i ./VPNserver/hosts --extra-vars "name=${1}" ./VPNserver/ansible_scripts/DeleteVpnUser.yml
