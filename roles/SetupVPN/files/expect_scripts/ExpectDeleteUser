@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+set docker_image [lindex $argv 0]
+set user_name [lindex $argv 1]
+set phrase [lindex $argv 2]
+spawn docker run --volumes-from $docker_image --rm -it kylemanna/openvpn ovpn_revokeclient $user_name remove
+match_max 100000
+log_file DeleteUser.log
+expect -exact "\r
+  Continue with revocation: "
+send -- "yes\r"
+expect -exact "\r
+Enter pass phrase for /etc/openvpn/pki/private/ca.key:"
+send -- "${phrase}\r"
+expect -exact "\r
+Enter pass phrase for /etc/openvpn/pki/private/ca.key:"
+send -- "${phrase}\r"
+expect eof
