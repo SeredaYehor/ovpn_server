@@ -1,0 +1,9 @@
+---
+    - name: start ExpectSetupVPN
+      shell: /scripts/ExpectSetupVPN {{ openvpn_master_password }}
+
+    - name: start ExpectAddUserVPN
+      shell: /scripts/ExpectAddUserVPN server {{ openvpn_master_password }}
+      args:
+        chdir: /users
+
