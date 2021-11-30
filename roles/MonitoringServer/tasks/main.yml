@@ -1,0 +1,16 @@
+---
+   - name: Create /configs directory
+     file:
+       state: directory
+       path: /configs
+
+   - name: Copy prometheus configuration file
+     copy:
+       src: prometheus.yml
+       dest: /configs/prometheus.yml
+
+   - name: Install prometheus container
+     shell: docker run -d -v /configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 9090:9090 prom/prometheus
+
+   - name: Install grafana container
+     shell: docker run -d -p 3000:3000 grafana/grafana
