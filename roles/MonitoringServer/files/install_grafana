@@ -1,0 +1,5 @@
+docker run -d -p 3000:3000 \
+-v /configs/datasources/sample.yaml:/etc/grafana/provisioning/datasources/sample.yaml \
+-v /configs/dashboards:/etc/grafana/provisioning/dashboards \
+-v /configs/main_rev5.json:/etc/grafana/provisioning/dashboards/main_rev5.json \
+grafana/grafana
