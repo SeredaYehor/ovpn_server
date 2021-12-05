@@ -1,0 +1,14 @@
+#!/bin/bash
+
+new=$1
+target=`grep 'MONITORSERVER' ./hosts | grep -oE 'ansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+
+sed -i 's/'$target'/ansible_host='${new}'/g' ./hosts
+echo `grep 'MONITORSERVER' ./hosts | grep -oE 'ansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+
+target=`grep "8080" ./roles/MonitoringServer/files/prometheus.yml | grep -oE '[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+container_host=`grep "CORESERVER" ./hosts | grep -oE '[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+sed -i "s/${target}/${container_host}/g" ./roles/MonitoringServer/files/prometheus.yml
+
+ansible-playbook -i ./hosts ./SetupMonitorServer.yml
+
