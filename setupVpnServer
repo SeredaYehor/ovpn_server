@@ -1,0 +1,11 @@
+#!/bin/bash
+
+new=$1
+[[ -z $new ]] && echo "No ip entered!" && exit 0
+
+target=`grep 'MYSERVER' ./hosts | grep -oE 'ansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+
+sed -i 's/'$target'/ansible_host='${new}'/g' ./hosts
+echo `grep 'MYSERVER' ./hosts | grep -oE 'ansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}'`
+
+ansible-playbook -i ./hosts ./SetupVPNServer.yml
