@@ -1,0 +1,6 @@
+---
+- hosts: MYSERVER
+  become: true
+  remote_user: manager
+  roles:
+    - UserManager
