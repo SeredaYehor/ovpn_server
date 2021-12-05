@@ -1,0 +1,5 @@
+- hosts: monitor_server
+  sudo: yes
+  roles:
+    - MonitoringServer
+
