@@ -1,0 +1,22 @@
+---
+   - name: Install base utils
+     apt:
+       pkg:
+         - nginx
+         - apache2-utils
+       state: present
+       update_cache: yes
+
+   - name: Creating file /etc/nginx/htpasswd
+     shell: touch /etc/nginx/htpasswd
+
+   - name: Creating test user
+     shell: htpasswd -b /etc/nginx/htpasswd test justfortest
+
+   - name: Copy available prometheus file
+     copy:
+       src: nginx-config/prometheus
+       dest: /etc/nginx/sites-available
+
+   - name: Start nginx server
+     shell: systemctl start nginx
