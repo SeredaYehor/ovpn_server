@@ -1,6 +1,18 @@
 #!/bin/bash
 
 new=$1
+if [[ $# -eq 3 ]] && [[ $2 == "-l" ]];
+then
+	param="${@: -1}"
+	if [[ "$param" =~ ":" ]]
+	then
+		vars=(${param//:/ })
+	fi
+else
+	echo "Error of using script!"
+	echo "Use: ./SetupMonitor 'ip' -l 'nginx_login':'nginx_password'"
+	exit 0
+fi
 target=`grep 'MONITORSERVER' ./hosts | grep -oE 'ansible_host=[0-9]{1,3}(\.[0-9]{1,3}){3}'`
 
 sed -i 's/'$target'/ansible_host='${new}'/g' ./hosts
@@ -10,5 +22,5 @@ target=`grep "8080" ./roles/MonitoringServer/files/prometheus.yml | grep -oE '[0
 container_host=`grep "CORESERVER" ./hosts | grep -oE '[0-9]{1,3}(\.[0-9]{1,3}){3}'`
 sed -i "s/${target}/${container_host}/g" ./roles/MonitoringServer/files/prometheus.yml
 
-ansible-playbook -i ./hosts ./SetupMonitorServer.yml
+ansible-playbook --extra-var "nginx_login=${vars[0]} nginx_passwd=${vars[1]}" -i ./hosts ./SetupMonitorServer.yml
 
