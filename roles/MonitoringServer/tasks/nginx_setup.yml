@@ -11,12 +11,15 @@
      shell: touch /etc/nginx/htpasswd
 
    - name: Creating test user
-     shell: htpasswd -b /etc/nginx/htpasswd test justfortest
+     shell: htpasswd -b /etc/nginx/htpasswd {{ nginx_login }} {{ nginx_passwd }}
+
+   - name: Remove default files
+     shell: rm /etc/nginx/sites-available/default & rm /etc/nginx/sites-enabled/default
 
    - name: Copy available prometheus file
      copy:
        src: nginx-config/prometheus
-       dest: /etc/nginx/sites-available
+       dest: /etc/nginx/sites-enabled
 
    - name: Start nginx server
      shell: systemctl start nginx
