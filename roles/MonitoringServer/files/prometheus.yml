@@ -31,14 +31,8 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: node
-#     If prometheus-node-exporter is installed, grab stats about the local
-#     machine by default.
-    static_configs:
-      - targets: ['localhost:9100']
-
   - job_name: cadvisor
     scrape_interval: 5s
     scrape_timeout: 5s
     static_configs:
-      - targets: ['163.172.176.223:8080']
+      - targets: ['3.3.3.3:8080']
