@@ -4,31 +4,15 @@
        state: directory
        path: /configs
 
-   - name: Copy datasource for grafana
-     copy:
-       src: datasources
-       dest: /configs
-
    - name: Copy prometheus configuration file
      copy:
        src: prometheus.yml
        dest: /configs/prometheus.yml
 
-   - name: Copy dashboard dir
-     copy:
-       src: dashboards
-       dest: /configs
-
 #   - name: Copy dashboard prometheus
 #     copy:
 #       src: main_rev5.json
 #       dest: /configs/main_rev5.json
-
-   - name: Copy install_grafana script
-     copy:
-       src: install_grafana
-       dest: /configs
-       mode: "0777"
 
    - name: Install docker
      import_tasks: install_docker.yml
@@ -36,8 +20,8 @@
    - name: Install prometheus container
      shell: docker run -d -v /configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 127.0.0.1:9090:9090 prom/prometheus
 
-   - name: Install grafana container
-     shell: /configs/install_grafana
-
    - name: Install nginx
      import_tasks: nginx_setup.yml
+
+   - name: Install grafana
+     import_tasks: install_grafana.yml
