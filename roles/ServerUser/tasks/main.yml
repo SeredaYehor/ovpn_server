@@ -1,0 +1,30 @@
+---
+   - name: Create user master
+     user:
+       name: bot
+       groups:
+        - docker
+       state: present
+       shell: /bin/bash
+
+   - name: Create .ssh directory for master
+     file:
+       state: directory
+       path: /home/bot/.ssh
+       mode: "0700"
+
+   - name: Copy .ssh file
+     shell: cp -r /home/userboi/.ssh/authorized_keys /home/bot/.ssh/authorized_keys
+
+   - name: Change owner of .ssh file
+     shell: chown -R bot:bot /home/bot/.ssh
+
+   - name: Change permissions for authorized_keys file
+     shell: chmod 600 /home/bot/.ssh/authorized_keys
+
+   - name: Allow master to sudo without password
+     lineinfile:
+       dest: /etc/sudoers
+       state: present
+       line: bot ALL=NOPASSWD:ALL
+
