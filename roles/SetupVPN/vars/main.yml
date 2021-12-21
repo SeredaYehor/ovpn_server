@@ -1,2 +1,2 @@
 ---
-    openvpn_master_password: 1234567890
+    openvpn_master_password: <vpn_password>
