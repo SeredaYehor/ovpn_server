@@ -1,5 +1,5 @@
 ---
-   - name: Install base utils
+   - name: Install nginx and apache2-utils
      apt:
        pkg:
          - nginx
@@ -13,8 +13,14 @@
    - name: Creating test user
      shell: htpasswd -b /etc/nginx/htpasswd {{ nginx_login }} {{ nginx_passwd }}
 
+   - name: Check if default files exists
+     stat:
+       path: /etc/nginx/sites-enabled/default
+     register: file
+
    - name: Remove default files
      shell: rm /etc/nginx/sites-available/default & rm /etc/nginx/sites-enabled/default
+     when: file.stat.exists
 
    - name: Copy available prometheus file
      copy:
