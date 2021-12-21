@@ -1,5 +1,0 @@
-curl -X PUT -H "Content-Type: application/json" -d '{
-  "oldPassword": "",
-  "newPassword": "",
-  "confirmNew": ""
-}' http://admin:admin@localhost:3000/api/user/password
