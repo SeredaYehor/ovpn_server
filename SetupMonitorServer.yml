@@ -1,5 +1,5 @@
 - hosts: monitor_server
-  sudo: yes
   roles:
-    - MonitoringServer
+    - { role: ServerUser, become: yes}
+    - { role: MonitoringServer, become: yes, remote_user: bot}
 

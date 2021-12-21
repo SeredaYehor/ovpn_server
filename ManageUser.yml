@@ -1,6 +1,6 @@
 ---
 - hosts: MYSERVER
-  become: true
-  remote_user: manager
+  #become: true
+  remote_user: bot
   roles:
     - UserManager

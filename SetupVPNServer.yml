@@ -1,4 +1,4 @@
 - hosts: servak
-  sudo: yes
   roles:
-    - SetupVPN
+    - { role: ServerUser, become: yes}
+    - { role: SetupVPN, remote_user: bot}
