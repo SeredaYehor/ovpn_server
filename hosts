@@ -43,13 +43,13 @@
 #db-[99:101]-node.example.com
 
 [servak]
-MYSERVER ansible_port=22 ansible_host=1.1.1.1 ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
+VPNSERVER ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
 [monitor_server]
-MONITORSERVER ansible_port=22 ansible_host=2.2.2.2 ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
+MONITORSERVER ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
 [core_server]
-CORESERVER ansbile_port=22 ansible_host=3.3.3.3 ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
+CORESERVER ansbile_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
 [servak:vars]
 ansible_python_interpreter=/usr/bin/python3
