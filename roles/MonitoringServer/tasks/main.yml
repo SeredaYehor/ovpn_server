@@ -2,12 +2,12 @@
    - name: Create /configs directory
      file:
        state: directory
-       path: /configs
+       path: ~/configs
 
    - name: Copy prometheus configuration file
-     copy:
-       src: prometheus.yml
-       dest: /configs/prometheus.yml
+     template:
+       src: prometheus.j2
+       dest: ~/configs/prometheus.yml
 
 #   - name: Copy dashboard prometheus
 #     copy:
