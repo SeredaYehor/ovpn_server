@@ -8,8 +8,8 @@
    - name: Write curl output to file get-docker.sh
      copy:
        content: "{{ curl_res.content }}"
-       dest: /get-docker.sh
+       dest: ~/get-docker.sh
        mode: "0777"
 
    - name: Execute get-docker.sh script
-     shell: /get-docker.sh
+     shell: ~/get-docker.sh
