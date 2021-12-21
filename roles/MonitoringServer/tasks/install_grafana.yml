@@ -2,31 +2,31 @@
    - name: Copy datasource for grafana
      copy:
        src: datasources
-       dest: /configs
+       dest: ~/configs
 
    - name: Copy dashboard dir
      copy:
        src: dashboards
-       dest: /configs
+       dest: ~/configs
 
    - name: Copy install_grafana script
      copy:
        src: install_grafana
-       dest: /configs
-       mode: "0777"
+       dest: ~/configs
+       mode: "0700"
 
    - name: Copy setup_grafana_auth script
-     copy:
-       src: setup_grafana_auth
-       dest: /configs
-       mode: "0777"
+     template:
+       src: setup_grafana_auth.j2
+       dest: ~/configs/setup_grafana_auth
+       mode: "0700"
 
    - name: Install grafana container
-     shell: /configs/install_grafana
+     shell: ~/configs/install_grafana
 
    - name: Wait grafana intializing
      wait_for:
        timeout: 10
 
    - name: Change password for grafana admin
-     shell: /configs/setup_grafana_auth
+     shell: ~/configs/setup_grafana_auth
