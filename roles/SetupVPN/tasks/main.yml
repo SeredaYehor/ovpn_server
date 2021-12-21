@@ -1,5 +1,6 @@
 ---
    - name: Install base utils
+     become: yes
      apt:
        pkg:
          - expect
@@ -11,12 +12,12 @@
    - name: Create folder for scripts
      file:
        state: directory
-       path: /scripts
+       path: ~/scripts
 
    - name: Create folder for users
      file:
        state: directory
-       path: /users
+       path: ~/users
 
    - name: Download files from docker.com
      uri:
@@ -24,40 +25,39 @@
         return_content: yes
      register: curl_res
 
-   - name: Creating new user manager
-     import_tasks: create_server_user.yml 
-
    - name: Write curl output to file get-docker.sh
      copy:
        content: "{{ curl_res.content }}"
-       dest: /scripts/get-docker.sh
-       mode: "0777"
+       dest: ~/scripts/get-docker.sh
+       mode: "0700"
 
    - name: Execute get-docker.sh script
-     shell: /scripts/get-docker.sh
+     shell: ~/scripts/get-docker.sh
 
    - name: Copy SetupVPN script
      copy:
        src: server_scripts/setupVPN.sh
-       dest: /scripts/setupVPN.sh
-       mode: "0777"
+       dest: ~/scripts/setupVPN.sh
+       mode: "0700"
 
    - name: Copy AddVPNUser script
      copy:
        src: server_scripts/addVPNUser.sh
-       dest: /scripts/addVPNUser.sh
-       mode: "0777"
+       dest: ~/scripts/addVPNUser.sh
+       mode: "0700"
 
    - name: Copy expect script ExpectSetupVPN
      copy:
        src: expect_scripts/ExpectSetupVPN
-       dest: /scripts/ExpectSetupVPN
-       mode: "0777"
+       dest: ~/scripts/ExpectSetupVPN
+       mode: "0700"
 
    - name: Copy expect script ExpectAddUserVPN
      copy:
        src: expect_scripts/ExpectAddUserVPN
-       dest: /scripts/ExpectAddUserVPN
-       mode: "0777"
+       dest: ~/scripts/ExpectAddUserVPN
+       mode: "0700"
 
+   - name: Start ExpectSetupVPN
+     shell: ~/scripts/ExpectSetupVPN {{ openvpn_master_password }}
 
