@@ -1,8 +1,8 @@
 ---
    - name: Creating user {{ name }}
      import_tasks: addVpnUser.yml
-     when: user_mode == "--add"
+     when: user_mode == "add"
 
    - name: Delete user {{ name }}
      import_tasks: DeleteVpnUser.yml
-     when: user_mode == "--del"
+     when: user_mode == "del"
