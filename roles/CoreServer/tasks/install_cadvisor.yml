@@ -1,0 +1,9 @@
+---
+    - name: Copy SetupcAdvisor script
+      template:
+        src: SetupcAdvisor.j2
+        dest: ~/scripts/SetupcAdvisor
+        mode: "0777"
+
+    - name: Execute SetupcAdvisor script
+      shell: ~/scripts/SetupcAdvisor
