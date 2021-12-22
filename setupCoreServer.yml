@@ -1,0 +1,4 @@
+- hosts: core_server
+  roles:
+    - { role: ServerUser, become: yes}
+    - { role: CoreServer, remote_user: bot}
