@@ -1,5 +1,5 @@
 ---
-- hosts: MYSERVER
+- hosts: VPNSERVER
   #become: true
   remote_user: bot
   roles:

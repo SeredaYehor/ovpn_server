@@ -1,5 +1,7 @@
 - hosts: monitor_server
+  become: yes
   roles:
-    - { role: ServerUser, become: yes}
-    - { role: MonitoringServer, become: yes, remote_user: bot}
+    - { role: ServerDocker  }
+    - { role: ServerUser }
+    - { role: MonitoringServer, remote_user: bot}
 
