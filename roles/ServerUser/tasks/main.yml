@@ -2,8 +2,6 @@
    - name: Create user master
      user:
        name: bot
-       groups:
-        - docker
        state: present
        shell: /bin/bash
 
