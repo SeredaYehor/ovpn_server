@@ -1,4 +1,2 @@
 ---
-    openvpn_master_password: <password>
-    user_mode: <add/del> 
-    name: <vpn_user_name>
+    openvpn_master_password: <vpn_password>
