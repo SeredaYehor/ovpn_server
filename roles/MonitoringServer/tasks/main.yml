@@ -9,14 +9,6 @@
        src: prometheus.j2
        dest: ~/configs/prometheus.yml
 
-#   - name: Copy dashboard prometheus
-#     copy:
-#       src: main_rev5.json
-#       dest: /configs/main_rev5.json
-
-   - name: Install docker
-     import_tasks: install_docker.yml
-
    - name: Install prometheus container
      shell: docker run -d -v /configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 127.0.0.1:9090:9090 prom/prometheus
 
