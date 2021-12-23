@@ -1,6 +1,6 @@
 # VPN Server Manager V.2
 
-This repository aimed to create infrastructure based on OpenVPN-Server including monitor server
+This repository aimed to create infrastructure based on OpenVPN-Server including monitor server.
 
 ## How to setup infrastructure
 
@@ -39,28 +39,33 @@ to it,  otherwise _SetupVPNServer_ script won't work properly.
 ## Setup CoreServer
 
 Before using _SetupClient_ script you should have .ovpn file from your OpenVPN-server, which could be created
-using _manageUser_ script. For creating user with specified name, configure **./roles/UserManager/vars/main.yml** file by
-setting up correct openvpn_master_password, specifying **<password>**, setting **user_mode** as **add** and naming of
-your VPN-server user **<user_name>**. Then, when .ovpn file will be downloaded, copy it to **./roles/CoreServer/files**
-directory where scripts could find it. Copying to another directories are not permitted, so that scripts won't work.
-And the last, change port of cadvisor service in file **./roles/CoreServer/vars/main.yml**. After all tasks are succesfully 
-done, you may start _SetupClient_ script.
+using _manageUser_ script with argument **<--add> or <--del>** and name of user. For creating user with specified
+name, configure **./roles/UserManager/vars/main.yml** file by setting up correct **<openvpn_master_password>**. 
+And the last, change port of cadvisor service in file **./roles/CoreServer/vars/main.yml**. After all tasks are 
+succesfully done, you may start _SetupClient_ script.
+
 
 >Example of vars file:
 >
 >`cadvisor_port: 8080`
 
+>Example of executing manageUser script:
+>
+>`./manageUser --add Tom`
+>`or`
+>`./manageUser --del Tom`
+
 >Example of executing SetupClient script:
 >
 >`./SetupClient`
 
-## Setup MonitoringServer
+## Setup MonitoringServer (Optional)
 
-The last server, which you'll need to setup is Monitoring server. To correctly configure it you should change
-**<core_server_host_ip>** to ip of your **CoreServer**, including exposed port of cadvisor on the server, sets 
-**<nginx_login>** and **<nginx_password>** for accessing to prometheus on **<ip_of_monitoring_server>**:80 link 
-and changing **<grafana_password>** on any desired value. That's everything that you must to do before executing 
-_SetupMonitor_. 
+The last server, which you'll need if you want to monitor all containers on CoreServer is Monitoring server. 
+To correctly configure it you should change **<core_server_host_ip>** to ip of your **CoreServer**, including 
+exposed port of cadvisor on the server, sets **<nginx_login>** and **<nginx_password>** for accessing to prometheus 
+on **<ip_of_monitoring_server>**:80 link and changing **<grafana_password>** on any desired value. That's everything 
+that you must to do before executing _SetupMonitor_. 
 
 >Example of vars file:
 >
