@@ -1,0 +1,18 @@
+---
+   - name: Pull kibana docker image
+     shell: docker pull kibana:7.16.2
+
+   - name: Copy install_kibana script
+     template:
+       src: install_kibana.j2
+       dest: ~/install_kibana
+       mode: "0700"
+
+   - name: Copy kibana conf file
+     template:
+       src: kibana.j2
+       dest: ~/kibana.yml
+       mode: "0666"
+
+   - name: Execute install_kibana script
+     shell: ~/install_kibana
