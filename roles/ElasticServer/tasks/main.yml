@@ -1,0 +1,17 @@
+---
+   - name: Pull docker elastic image
+     shell: docker pull elasticsearch:7.16.2 
+
+   - name: Copy install_elastic script
+     template:
+       src: install_elastic.j2
+       dest: ~/install_elastic
+       mode: "0700"
+
+   - name: Copy elasticsearch conf file
+     copy:
+       src: elasticsearch.yml
+       dest: ~/elasticsearch.yml
+
+   - name: Execute install_elastic
+     shell: ~/install_elastic
