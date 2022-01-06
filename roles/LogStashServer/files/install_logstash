@@ -1,0 +1,6 @@
+docker run -dt -p 0.0.0.0:5044:5044 -p 0.0.0.0:9600:9600 \
+-v ~/pipeline/:/usr/share/logstash/pipeline/ \
+-v ~/logstash.yml:/usr/share/logstash/config/logstash.yml \
+-v ~/logstash-sample.conf:/usr/share/logstash/config/logstash-sample.conf logstash:7.16.2
+
+
