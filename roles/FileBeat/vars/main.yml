@@ -1,3 +1,3 @@
 ---
-   logstash_ip: 163.172.131.70
-   elastic_ip: 163.172.131.70
+   logstash_ip: <host_ip>
+   elastic_ip: <host_ip>
