@@ -51,11 +51,14 @@ MONITORSERVER ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansi
 [core_server]
 CORESERVER ansbile_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
-[servak:vars]
-ansible_python_interpreter=/usr/bin/python3
+[kibana_server]
+KIBANA ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
-[monitor_server:vars]
-ansible_python_interpreter=/usr/bin/python3
+[elastic_server]
+ELASTIC ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
 
-[core_server:vars]
+[logstash_server]
+LOGSTASH ansbile_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=id_rsa
+
+[all:vars]
 ansible_python_interpreter=/usr/bin/python3
