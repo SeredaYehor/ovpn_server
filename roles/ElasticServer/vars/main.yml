@@ -1,2 +1,2 @@
 ---
-# vars file for ElasticServer
+   network: 0.0.0.0
