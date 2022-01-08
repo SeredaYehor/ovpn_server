@@ -80,3 +80,20 @@ that you must to do before executing _SetupMonitor_.
 >Example of executing SetupMonitor script:
 >
 >`./SetupMonitor`
+
+## Setup ELK stack (Optional)
+
+If you want to recieve logs from containers and your CoreServer and visualise it, you'll need
+ELK stack which consist of filebeat, logstash, elasticsearch and kibana servers. For working ELK needs to setup
+CoreServer with **filebeat_enabled** var setted with value **"true"**, which locates in _./roles/CoreServer/vars/main.yml_.
+After that you can easily connect your server to ELK. Secondary, you should specify in _hosts_ file your additional servers
+by replacing **<host_ip>** for KIBANA, ELASTIC and LOGSTASH. Then, you'll need to set values of your elastic server ip for
+**elastic_ip** variable for _LogstashServer_ and _KibanaServer_ roles and set **network**(e.g. VPN subnet) for _ElasticServer_, 
+_LogstashServer_ and _KibanaServer_ in vars/main.yml file of each role. Default value for **network** specified as 0.0.0.0.
+After that you've fully managed configuration of ELK stack for your CoreServer, so that you can setup it by executing 
+_SetupLogService_ script with no parameters.  
+
+>Example of executing SetupLogService script:
+>
+>`./SetupLogService`
+
