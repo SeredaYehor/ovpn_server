@@ -9,8 +9,8 @@
        mode: "0700"
 
    - name: Copy elasticsearch conf file
-     copy:
-       src: elasticsearch.yml
+     template:
+       src: elasticsearch.j2
        dest: ~/elasticsearch.yml
 
    - name: Execute install_elastic
