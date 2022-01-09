@@ -1,0 +1,10 @@
+cluster.name: "docker-cluster"
+node.name: elasticsearch
+
+transport.host: {{ network }}
+transport.tcp.port: 9300
+network.host: {{ network }}
+http.port: 9200
+
+xpack.security.enabled: false
+
