@@ -1,4 +1,8 @@
 ---
+   - name: Include configuration vars
+     include_vars:
+       file: ./ELK_configuration.yml
+
    - name: Pull kibana docker image
      shell: docker pull kibana:7.16.2
 
