@@ -1,4 +1,8 @@
 ---
+   - name: Include configuration vars
+     include_vars:
+       file: ./ELK_configuration.yml
+   
    - name: Pull docker elastic image
      shell: docker pull elasticsearch:7.16.2 
 
