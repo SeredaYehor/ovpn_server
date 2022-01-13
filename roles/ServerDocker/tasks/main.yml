@@ -1,15 +1,25 @@
 ---
+   - name: Test if docker is installed
+     command: docker
+     register: result
+     ignore_errors: True
+  
    - name: Download files from docker.com
      uri:
         url: https://get.docker.com
         return_content: yes
      register: curl_res
+     when: result.failed == true
 
    - name: Write curl output to file get-docker.sh
      copy:
        content: "{{ curl_res.content }}"
        dest: /get-docker.sh
        mode: "0777"
+     when: result.failed == true
+
 
    - name: Execute get-docker.sh script
      shell: /get-docker.sh
+     when: result.failed == true
+
