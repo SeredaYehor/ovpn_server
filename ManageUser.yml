@@ -1,6 +1,6 @@
 ---
 - hosts: VPNSERVER
-  #become: true
+  become: true
   remote_user: bot
   roles:
     - UserManager
