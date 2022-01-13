@@ -43,6 +43,12 @@
        dest: ~/scripts/ExpectAddUserVPN
        mode: "0700"
 
+   - name: Copy ExpectDeleteUser script
+      copy:
+        src: ExpectDeleteUser
+        dest: ~/scripts/ExpectDeleteUser
+        mode: "0700"
+
    - name: Start ExpectSetupVPN
      shell: ~/scripts/ExpectSetupVPN {{ openvpn_master_password }}
 
