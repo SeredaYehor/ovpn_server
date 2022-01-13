@@ -1,5 +1,4 @@
 ---
    cadvisor_port: <port>
    filebeat_enabled: "true"
-   logstash_ip: <host_ip>
 
