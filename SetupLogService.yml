@@ -1,4 +1,4 @@
-- hosts: kibana_server, elastic_server, logstash_server
+- hosts: elastic_server, kibana_server, logstash_server
   become: yes
   roles:
     - { role: ServerDocker }
@@ -22,9 +22,4 @@
   roles:
     - { role: LogStashServer }
 
-- hosts: servak
-  become: yes
-  remote_user: bot
-  roles:
-    - { role: FileBeat }
 
