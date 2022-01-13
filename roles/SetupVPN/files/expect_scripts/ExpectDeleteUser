@@ -6,7 +6,6 @@ set user_name [lindex $argv 1]
 set phrase [lindex $argv 2]
 spawn docker run --volumes-from $docker_image --rm -it kylemanna/openvpn ovpn_revokeclient $user_name remove
 match_max 100000
-log_file DeleteUser.log
 expect -exact "\r
   Continue with revocation: "
 send -- "yes\r"

@@ -2,8 +2,7 @@
 set timeout -1
 set name [lindex $argv 0]
 set openvpn_master_password [lindex $argv 1]
-log_file ExpectAddUserVPN.log
-spawn /scripts/addVPNUser.sh $name
+spawn ~/scripts/addVPNUser.sh $name
 match_max 100000
 expect -exact "\r
 Enter pass phrase for /etc/openvpn/pki/private/ca.key:"
