@@ -22,10 +22,15 @@
      shell: rm /etc/nginx/sites-available/default & rm /etc/nginx/sites-enabled/default
      when: file.stat.exists
 
-   - name: Copy available prometheus file
+   - name: Copy prometheus file to enabled sites
      copy:
        src: nginx-config/prometheus
        dest: /etc/nginx/sites-enabled
+
+   - name: Copy prometheus file to available sites
+     copy:
+       src: nginx-config/prometheus
+       dest: /etc/nginx/sites-available
 
    - name: Start nginx server
      shell: systemctl start nginx
