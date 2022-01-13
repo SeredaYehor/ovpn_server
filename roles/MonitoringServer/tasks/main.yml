@@ -10,7 +10,7 @@
        dest: ~/configs/prometheus.yml
 
    - name: Install prometheus container
-     shell: docker run -d -v /configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 127.0.0.1:9090:9090 prom/prometheus
+     shell: docker run -d -v ~/configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 127.0.0.1:9090:9090 prom/prometheus
 
    - name: Install nginx
      import_tasks: nginx_setup.yml
