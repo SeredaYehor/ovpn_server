@@ -1,4 +1,8 @@
 ---
+   - name: Include configuration vars
+     include_vars:
+       file: ./ELK_configuration.yml
+
    - name: Download filebeat 
      shell: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.16.2-amd64.deb
 
