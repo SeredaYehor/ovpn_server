@@ -1,4 +1,8 @@
 ---
+   - name: Include configuration vars
+     include_vars:
+       file: ./ELK_configuration.yml
+
    - name: Pulling docker logstash image
      shell: docker pull logstash:7.16.2
 
