@@ -1,0 +1,4 @@
+network: 0.0.0.0
+elastic_ip: 163.172.131.70
+logstash_ip: 163.172.176.223
+
