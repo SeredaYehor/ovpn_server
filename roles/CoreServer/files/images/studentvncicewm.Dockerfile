@@ -13,8 +13,9 @@ RUN apt-get install -y codeblocks g++ default-jdk default-jre unzip libreoffice 
 
 ### Install netbeans
 
-RUN wget --no-check-certificate https://apache.volia.net/netbeans/netbeans/12.0/netbeans-12.0-bin.zip -O /tmp/netbeans.zip && echo "Done"
-RUN unzip /tmp/netbeans.zip -d /opt
+#RUN wget --no-check-certificate https://apache.volia.net/netbeans/netbeans/12.0/netbeans-12.0-bin.zip -O /tmp/netbeans.zip && echo "Done"
+#RUN unzip /tmp/netbeans.zip -d /opt
+RUN apt-get install -y netbeans
 
 ### Install eclipse
 
@@ -86,7 +87,7 @@ RUN echo "prog Terminal /usr/share/pixmaps/terminator.png terminator" >> /headle
 RUN echo "prog [C++]\ codeblocks /usr/share/codeblocks/icons/app_64.xpm /usr/bin/codeblocks" >> /headless/.icewm/menu
 RUN echo "prog [C#]\ Monodevelop /usr/share/icons/hicolor/scalable/apps/monodevelop.svg /usr/bin/monodevelop" >> /headless/.icewm/menu
 RUN echo "prog [Java]\ eclipse /usr/share/eclipse/plugins/org.eclipse.platform_3.8.1.dist/eclipse256.png /usr/bin/eclipse" >> /headless/.icewm/menu
-RUN echo "prog [Java]\ netbeans /opt/netbeans/nb/netbeans.png /opt/netbeans/bin/netbeans" >> /headless/.icewm/menu
+#RUN echo "prog [Java]\ netbeans /opt/netbeans/nb/netbeans.png /usr/bin/netbeans" >> /headless/.icewm/menu
 RUN echo "prog [Pascal]\ Lazarus /usr/lib/lazarus/1.6/images/icons/lazarus.ico lazarus-ide" >> /headless/.icewm/menu
 RUN echo "prog [Pascal]\ FreePascal fp startfp" >> /headless/.icewm/menu
 RUN echo "prog VisualStudio /usr/share/pixmaps/com.visualstudio.code.png code" >> /headless/.icewm/menu
