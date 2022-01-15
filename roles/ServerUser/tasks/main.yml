@@ -9,7 +9,7 @@
        msg: "User bot is already created on server!"
      when: result.failed == false
 
-   - name: Create user master
+   - name: Create user bot
      user:
        name: bot
        state: present
