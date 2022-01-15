@@ -36,7 +36,7 @@
         dest: /usr/local/bin/
         mode: "0777"
 
-    - name: Copying .ovpn file to /usr/local/bin
+    - name: Copying .ovpn file to /etc/openvpn/server
       copy:
         src: ovpn_users/server.ovpn
         dest: /etc/openvpn/server/server.conf
