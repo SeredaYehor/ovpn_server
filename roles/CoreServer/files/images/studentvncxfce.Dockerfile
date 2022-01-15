@@ -13,8 +13,9 @@ RUN apt-get install -y codeblocks g++ default-jdk default-jre unzip libreoffice 
 
 ### Install netbeans
 
-RUN wget --no-check-certificate https://apache.volia.net/netbeans/netbeans/12.0/netbeans-12.0-bin.zip -O /tmp/netbeans.zip && echo "Done"
-RUN unzip /tmp/netbeans.zip -d /opt
+#RUN wget --no-check-certificate https://apache.volia.net/netbeans/netbeans/12.0/netbeans-12.0-bin.zip -O /tmp/netbeans.zip && echo "Done"
+#RUN unzip /tmp/netbeans.zip -d /opt
+RUN apt-get install -y netbeans
 
 ### Install eclipse
 
@@ -77,7 +78,7 @@ RUN rm -rf /headless/install
 
 ### Update wallpaper
 
-COPY a2lab.jpg /headless/.config
+COPY a2lab.jpg /headless/.config/a2lab.jpg
 RUN sed -i 's/bg_sakuli.png/a2lab.jpg/g' /headless/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 
 # Add desktop entries for each application
