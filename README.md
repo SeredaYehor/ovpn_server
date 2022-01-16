@@ -21,11 +21,11 @@ each server and then set variables in each role for managing working of scripts.
 ## Generating ssh keys
 
 Before executing all scripts you should generate ssh keys for remote user, which will execute all command on servers.
-To create these keys you need to execute CreateSshKey script with sudo.
+To create these keys you need to execute **setupBot** script and press enter every time when scripts asks for input.
 
->Example of executing CreateSshKey script
+>Example of executing setupBot script
 >
->`sudo ./CreateSshKey`
+>`./setupBot`
 
 ## Setup of OpenVPN-server
 
