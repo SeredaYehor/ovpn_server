@@ -1,6 +1,5 @@
 #!/bin/bash
-
-[ -z ${1} ] || [ ${1} != "--add" ] && [ ${1} != "--del" ] && echo "Use keys --add <name> to add user, or --del <name> to delete" && exit 1
+[ -z ${1} ] || [  ${1} != "--add" -a ${1} != "--del"  ] && echo "Use keys --add <name> to add user, or --del <name> to delete" && exit 1
 [ -z ${2} ] && echo "Name not entered" && exit 1
 
 ansible-playbook -i ./hosts --extra-vars "user_mode=${1} name=${2}" ./ManageUser.yml
