@@ -1,4 +1,5 @@
 ---
+   cadvisor_enabled: "true"
    cadvisor_port: <port>
    filebeat_enabled: "true"
 
