@@ -1,4 +1,9 @@
 ---
+    - name: Create directory if not exists
+      file:
+        path: ~/scripts
+        state: directory
+
     - name: Copy SetupcAdvisor script
       template:
         src: SetupcAdvisor.j2
