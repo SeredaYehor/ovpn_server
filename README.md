@@ -41,14 +41,9 @@ file. Then you can execute setupVpnServer script.
 >
 >`./setupVpnServer`
 
-# !NOTE!
-If you accidentally deleted \"hosts\" file, you'll need to create new one and write **\"ansible_hosts=0.0.0.0\"** 
-to it,  otherwise _SetupVPNServer_ script won't work properly.
-
-
 ## Setup CoreServer
 
-Before using _SetupClient_ script you should have .ovpn file from your OpenVPN-server, which could be created
+Before using _SetupClient_ script you should have server.ovpn file from your OpenVPN-server, which could be created
 using _manageUser_ script with argument **<--add> or <--del>** and name of user. For creating user with specified
 name, configure **./roles/UserManager/vars/main.yml** file by setting up correct **<openvpn_master_password>**. 
 And the last, change port of cadvisor service in file **./roles/CoreServer/vars/main.yml**. After all tasks are 
@@ -65,9 +60,9 @@ succesfully done, you may start _SetupClient_ script.
 >`or`
 >`./manageUser --del Tom`
 
->Example of executing SetupClient script:
+>Example of executing SetupCoreServer script:
 >
->`./SetupClient`
+>`./SetupCoreServer`
 
 ## Setup MonitoringServer (Optional)
 
