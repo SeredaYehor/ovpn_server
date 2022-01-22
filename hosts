@@ -43,25 +43,26 @@
 #db-[99:101]-node.example.com
 
 [servak]
-VPNSERVER ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+VPNSERVER ansible_port=22 ansible_host=<host_ip>
 
 [monitor_server]
-MONITORSERVER ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+MONITORSERVER ansible_port=22 ansible_host=<host_ip>  
 
 [core_server]
-CORESERVER ansbile_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+CORESERVER ansbile_port=22 ansible_host=<host_ip> 
 
 [kibana_server]
-KIBANA ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+KIBANA ansible_port=22 ansible_host=<host_ip> 
 
 [elastic_server]
-ELASTIC ansible_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+ELASTIC ansible_port=22 ansible_host=<host_ip> 
 
 [logstash_server]
-LOGSTASH ansbile_port=22 ansible_host=<host_ip> ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa
+LOGSTASH ansbile_port=22 ansible_host=<host_ip> 
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
-
-
+ansible_user=bot
+ansible_ssh_private_key_file=./ssh_key/bot_rsa
+ansible_connection=ssh
 
