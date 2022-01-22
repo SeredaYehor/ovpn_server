@@ -1,9 +1,0 @@
----
-   old_grafana_passwd: admin
-   new_grafana_passwd: <grafana_password>
-
-   cadvisor_server_ip: <core_server_host_ip>
-   cadvisor_port: <port>
-
-   nginx_login: <nginx_login>
-   nginx_passwd: <nginx_password>
