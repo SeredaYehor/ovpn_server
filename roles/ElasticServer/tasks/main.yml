@@ -1,4 +1,17 @@
 ---
+   - name: Get elastic docker container name
+     shell: docker ps -a | grep "elasticsearch" | awk '{ print $NF }'
+     register: image_name
+
+   - name: Killing container
+     shell: docker kill {{ image_name.stdout }}
+     ignore_errors: True
+     when: image_name.stdout != ""
+
+   - name: Removing container
+     shell: docker rm {{ image_name.stdout }}
+     when: image_name.stdout != ""
+
    - name: Include configuration vars
      include_vars:
        file: ./ELK_configuration.yml
@@ -6,16 +19,27 @@
    - name: Pull docker elastic image
      shell: docker pull elasticsearch:7.16.2 
 
+   - name: Create directory setup_files
+     file:
+       state: directory
+       path: ~/setup_files
+
    - name: Copy install_elastic script
      template:
        src: install_elastic.j2
-       dest: ~/install_elastic
+       dest: ~/setup_files/install_elastic
        mode: "0700"
 
    - name: Copy elasticsearch conf file
      template:
        src: elasticsearch.j2
-       dest: ~/elasticsearch.yml
+       dest: ~/setup_files/elasticsearch.yml
 
    - name: Execute install_elastic
-     shell: ~/install_elastic
+     shell: ~/setup_files/install_elastic
+
+   - name: Change max heap size
+     shell: sysctl -w vm.max_map_count=262144
+
+   - name: Remove setup_files directory
+     shell: rm -r -f ~/setup_files

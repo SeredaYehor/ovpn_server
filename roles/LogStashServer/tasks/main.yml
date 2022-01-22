@@ -1,7 +1,25 @@
 ---
+   - name: Get logstash docker container name
+     shell: docker ps -a | grep "logstash" | awk '{ print $NF }'
+     register: image_name
+
+   - name: Killing container
+     shell: docker kill {{ image_name.stdout }}
+     ignore_errors: True
+     when: image_name.stdout != ""
+
+   - name: Removing container
+     shell: docker rm {{ image_name.stdout }}
+     when: image_name.stdout != ""
+
    - name: Include configuration vars
      include_vars:
        file: ./ELK_configuration.yml
+
+   - name: Create /configs directory
+     file:
+       state: directory
+       path: ~/setup_files
 
    - name: Pulling docker logstash image
      shell: docker pull logstash:7.16.2
@@ -9,24 +27,21 @@
    - name: Copy install_logstash script
      copy:
        src: install_logstash
-       dest: ~/install_logstash
+       dest: ~/setup_files/install_logstash
        mode: "0700"
 
    - name: Copy config file
      template:
        src: logstash.j2
-       dest: ~/logstash.yml
+       dest: ~/setup_files/logstash.yml
 
    - name: Copy logstash-sample.yml file
      template:
        src: logstash-sample.j2
-       dest: ~/logstash-sample.conf
-
-   - name: Create pipeline dir
-     file:
-       state: directory
-       path: ~/pipeline
+       dest: ~/setup_files/logstash-sample.conf
 
    - name: Execute install_logstash
-     shell: ~/install_logstash
+     shell: ~/setup_files/install_logstash
 
+   - name: Remove setup_files directory
+     shell: rm -r -f ~/setup_files
