@@ -1,4 +1,8 @@
 ---
+   - name: Include configuration vars
+     include_vars:
+       file: ./variables.yml
+
    - name: Creating user {{ name }}
      import_tasks: addVpnUser.yml
      when: user_mode == "--add"
