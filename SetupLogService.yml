@@ -2,7 +2,6 @@
   become: yes
   roles:
     - { role: ServerDocker }
-    - { role: ServerUser }
 
 - hosts: elastic_server
   become: yes
