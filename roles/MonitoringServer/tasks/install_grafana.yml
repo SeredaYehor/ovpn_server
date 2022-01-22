@@ -1,4 +1,18 @@
 ---
+
+   - name: Get grafana docker container name
+     shell: docker ps -a | grep "/run.sh" | awk '{ print $NF }'
+     register: image_name
+
+   - name: Killing container
+     shell: docker kill {{ image_name.stdout }}
+     ignore_errors: True
+     when: image_name.stdout != ""
+
+   - name: Removing container
+     shell: docker rm {{ image_name.stdout }}
+     when: image_name.stdout != ""
+
    - name: Copy datasource for grafana
      copy:
        src: datasources
