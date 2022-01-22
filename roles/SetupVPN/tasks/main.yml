@@ -1,4 +1,22 @@
 ---
+
+   - name: Get ovpn docker container name
+     shell: docker ps -a | grep "ovpn_run" | awk '{ print $NF }'
+     register: image_name
+
+   - name: Killing container
+     shell: docker kill {{ image_name.stdout }}
+     ignore_errors: True
+     when: image_name.stdout != ""
+
+   - name: Removing container
+     shell: docker rm {{ image_name.stdout }}
+     when: image_name.stdout != ""
+
+   - name: Include configuration vars
+     include_vars:
+       file: ./variables.yml
+
    - name: Install base utils
      become: yes
      apt:
