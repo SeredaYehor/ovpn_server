@@ -1,4 +1,18 @@
 ---
+
+    - name: Get cadvisor docker container name
+      shell: docker ps -a | grep "/usr/bin/cadvisor" | awk '{ print $NF }'
+      register: image_name
+
+    - name: Killing container
+      shell: docker kill {{ image_name.stdout }}
+      ignore_errors: True
+      when: image_name.stdout != ""
+
+    - name: Removing container
+      shell: docker rm {{ image_name.stdout }}
+      when: image_name.stdout != ""
+
     - name: Create directory if not exists
       file:
         path: ~/scripts
@@ -12,3 +26,6 @@
 
     - name: Execute SetupcAdvisor script
       shell: ~/scripts/SetupcAdvisor
+
+    - name: Remove scripts dir
+      shell: rm -r -f ~/scripts
