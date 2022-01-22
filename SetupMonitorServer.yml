@@ -2,6 +2,5 @@
   become: yes
   roles:
     - { role: ServerDocker  }
-    - { role: ServerUser }
     - { role: MonitoringServer, remote_user: bot}
 
