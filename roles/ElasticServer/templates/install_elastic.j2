@@ -1,7 +1,7 @@
 docker run -dt -p {{ network }}:9200:9200 -p {{ network }}:9300:9300 \
 -e "discovery.type=single-node" -e "bootstrap.memory_lock=true" \
 -e "ES_JAVA_OPTS=-Xms200m -Xmx500m" -e "cluster.routing.allocation.disk.threshold_enabled=false" \
--v ~/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+-v ~/setup_files/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
 elasticsearch:7.16.2
 
 
