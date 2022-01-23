@@ -11,26 +11,27 @@ each server and then set variables in each role for managing working of scripts.
 >Example of hosts file:
 >
 >
->`VPNSERVER ansible_port=22 ansible_host=1.1.1.1 ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa`
+>`VPNSERVER ansible_port=22 ansible_host=1.1.1.1`
 >
->`MONITORSERVER ansible_port=22 ansible_host=2.2.2.2 ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa`
+>`MONITORSERVER ansible_port=22 ansible_host=2.2.2.2`
 >
->`CORESERVER ansbile_port=22 ansible_host=3.3.3.3 ansible_connection=ssh ansible_ssh_private_key_file=bot_rsa`
+>`CORESERVER ansbile_port=22 ansible_host=3.3.3.3`
 
 
 ## Generating ssh keys
 
 Before executing all scripts you should generate ssh keys for remote user, which will execute all command on servers.
-To create these keys you need to execute **setupBot** script and press enter every time when scripts asks for input.
+To create these keys you need to execute **setupBot** script with specifying remote_user for connecting to server, 
+array of your future servers ip and press enter every time when scripts asks for input.
 
 >Example of executing setupBot script
 >
->`./setupBot`
+>`./setupBot my_user 1.1.1.1 2.2.2.2 3.3.3.3`
 
 ## Setup of OpenVPN-server
 
 As mentioned below, first and foremost, change **<host_ip>** for VPNSERVER on ip of your host. After
-that change **<vpn_password>** value of openvpn_master_password variable in **./roles/SetupVPN/vars/main.yml**
+that change **<vpn_password>** value of openvpn_master_password variable in **variables.yml**
 file. Then you can execute setupVpnServer script.
 
 >Example of vars file:
@@ -44,9 +45,9 @@ file. Then you can execute setupVpnServer script.
 ## Setup CoreServer
 
 Before using _SetupClient_ script you should have server.ovpn file from your OpenVPN-server, which could be created
-using _manageUser_ script with argument **<--add> or <--del>** and name of user. For creating user with specified
+using _manageUser_ script with argument **<--add>** or **<--del>** and name of user. For creating user with specified
 name, configure **./roles/UserManager/vars/main.yml** file by setting up correct **<openvpn_master_password>**. 
-And the last, change port of cadvisor service in file **./roles/CoreServer/vars/main.yml**. After all tasks are 
+And the last, change port of cadvisor service in file **variables.yml**. After all tasks are 
 succesfully done, you may start _SetupClient_ script.
 
 
@@ -90,7 +91,7 @@ that you must to do before executing _SetupMonitor_.
 
 If you want to recieve logs from containers and your CoreServer and visualise it, you'll need
 ELK stack which consist of filebeat, logstash, elasticsearch and kibana servers. For working ELK needs to setup
-CoreServer with **filebeat_enabled** var setted with value **"true"**, which locates in _./roles/CoreServer/vars/main.yml_.
+CoreServer with **filebeat_enabled** var setted with value **"true"**, which locates in _./variables.yml_.
 After that you can easily connect your server to ELK. Secondary, you should specify in _hosts_ file your additional servers
 by replacing **<host_ip>** for KIBANA, ELASTIC and LOGSTASH. Then, you'll need to set values of vars in **ELK_configuration** file,
 where **network* is a address of your network(e.g. vpn), ip of elastic and logstash servers. After that you've fully managed 
