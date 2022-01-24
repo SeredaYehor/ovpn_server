@@ -16,7 +16,7 @@
      include_vars:
        file: ./ELK_configuration.yml
 
-   - name: Create /configs directory
+   - name: Create /setup_files directory
      file:
        state: directory
        path: ~/setup_files
@@ -34,11 +34,13 @@
      template:
        src: logstash.j2
        dest: ~/setup_files/logstash.yml
+       mode: "0666"
 
    - name: Copy logstash-sample.yml file
      template:
        src: logstash-sample.j2
        dest: ~/setup_files/logstash-sample.conf
+       mode: "0666"
 
    - name: Execute install_logstash
      shell: ~/setup_files/install_logstash
