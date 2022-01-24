@@ -19,7 +19,7 @@
    - name: Pull kibana docker image
      shell: docker pull kibana:7.16.2
 
-   - name: Create /configs directory
+   - name: Create /setup_files directory
      file:
        state: directory
        path: ~/setup_files
@@ -29,12 +29,14 @@
        src: install_kibana.j2
        dest: ~/setup_files/install_kibana
        mode: "0700"
+       force: yes
 
    - name: Copy kibana conf file
      template:
        src: kibana.j2
        dest: ~/setup_files/kibana.yml
        mode: "0666"
+       force: yes
 
    - name: Execute install_kibana script
      shell: ~/setup_files/install_kibana
