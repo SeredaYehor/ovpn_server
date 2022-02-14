@@ -1,0 +1,26 @@
+---
+   - name: Include configuration vars
+     include_vars:
+       file: ./variables.yml
+
+#   - name: Create folder for scripts
+#     file:
+#       state: directory
+#       path: ~/ovpn_users
+
+   - name: Execute CreateElkUsers script
+     shell: ~/scripts/CreateElkUsers.sh {{ openvpn_master_password }}
+
+   - name: find files to copy
+     find: 
+       paths: "/home/bot"
+       recurse: no 
+       patterns: "*.ovpn"
+     register: files_to_copy
+
+   - name: Copy elk keys
+     fetch:
+       src: "{{ item.path }}"
+       dest: ./ovpn_users/
+       flat: yes
+     with_items: "{{ files_to_copy.files }}"
