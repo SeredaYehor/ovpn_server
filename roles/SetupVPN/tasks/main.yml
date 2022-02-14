@@ -1,5 +1,4 @@
 ---
-
    - name: Get ovpn docker container name
      shell: docker ps -a | grep "ovpn_run" | awk '{ print $NF }'
      register: image_name
@@ -49,6 +48,12 @@
        dest: ~/scripts/addVPNUser.sh
        mode: "0700"
 
+   - name: Copy CreateElkUsers script
+     copy:
+       src: server_scripts/CreateElkUsers.sh
+       dest: ~/scripts/CreateElkUsers.sh
+       mode: "0700"
+
    - name: Copy expect script ExpectSetupVPN
      copy:
        src: expect_scripts/ExpectSetupVPN
@@ -66,6 +71,11 @@
        src: expect_scripts/ExpectDeleteUser
        dest: ~/scripts/ExpectDeleteUser
        mode: "0700"
+
+   - name: Copy openvpn.conf file
+     template:
+       src: openvpn.j2
+       dest: ~/scripts/openvpn.conf
 
    - name: Start ExpectSetupVPN
      shell: ~/scripts/ExpectSetupVPN {{ openvpn_master_password }}
