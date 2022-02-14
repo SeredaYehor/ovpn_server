@@ -15,4 +15,5 @@ then
     exit 1
 fi
 
-docker run -dt --user $(id -u):$(id -g) -p ${port}:5901 -e VNC_PW=${password} --name ${name} studentvnc${version}
+subnet=`ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'`
+docker run -dt --user $(id -u):$(id -g) -p ${subnet}:${port}:5901 -e VNC_PW=${password} --name ${name} studentvnc${version}
