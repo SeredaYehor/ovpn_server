@@ -1,3 +1,5 @@
 #!/bin/bash
 
+./manageUser --add server
+mv ./ovpn_users/server.ovpn ./roles/CoreServer/files/ovpn_users/server.ovpn
 ansible-playbook -i ./hosts ./setupCoreServer.yml
