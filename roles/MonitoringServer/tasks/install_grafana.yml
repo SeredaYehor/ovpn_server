@@ -13,10 +13,20 @@
      shell: docker rm {{ image_name.stdout }}
      when: image_name.stdout != ""
 
+
+#   - name: Identifying vpn network
+#     shell: ifconfig | grep utun -A2 | grep "inet " | awk '{print $2}'
+#     register: subnet
+
+   - name: Creating datasource directory
+     file: 
+       path: ~/configs/datasources 
+       state: directory
+
    - name: Copy datasource for grafana
-     copy:
-       src: datasources
-       dest: ~/configs
+     template:
+       src: datasources/sample.j2
+       dest: ~/configs/datasources/sample.yaml
 
    - name: Copy dashboard dir
      copy:
@@ -36,14 +46,14 @@
        mode: "0700"
 
    - name: Install grafana container
-     shell: ~/configs/install_grafana
+     shell: ~/configs/install_grafana {{ subnet.stdout }}
 
    - name: Wait grafana intializing
      wait_for:
        timeout: 10
 
    - name: Change password for grafana admin
-     shell: ~/configs/setup_grafana_auth
+     shell: ~/configs/setup_grafana_auth {{ subnet.stdout }}
 
    - name: Removing setup_grafana_auth script
      shell: rm ~/configs/setup_grafana_auth
