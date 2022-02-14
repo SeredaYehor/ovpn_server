@@ -1,4 +1,18 @@
 ---
+   - name: Installing OpenVPN client
+     apt:
+       pkg:
+         - openvpn
+       state: present
+
+   - name: Copying .ovpn file to /etc/openvpn/client
+     copy:
+       src: logstash.ovpn
+       dest: /etc/openvpn/client/logstash.conf
+
+   - name: Start openvpn client
+     shell: systemctl start openvpn-client@logstash
+
    - name: Get logstash docker container name
      shell: docker ps -a | grep "logstash" | awk '{ print $NF }'
      register: image_name
@@ -12,9 +26,9 @@
      shell: docker rm {{ image_name.stdout }}
      when: image_name.stdout != ""
 
-   - name: Include configuration vars
-     include_vars:
-       file: ./ELK_configuration.yml
+   - name: Identifying vpn network
+     shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
+     register: subnet
 
    - name: Create /setup_files directory
      file:
@@ -23,6 +37,11 @@
 
    - name: Pulling docker logstash image
      shell: docker pull logstash:7.16.2
+
+   - name: Get elastic vpn ip
+     shell: "sudo printenv ELASTICIP"
+     delegate_to: 127.0.0.1
+     register: elastic_ip
 
    - name: Copy install_logstash script
      copy:
@@ -43,7 +62,12 @@
        mode: "0666"
 
    - name: Execute install_logstash
-     shell: ~/setup_files/install_logstash
+     shell: ~/setup_files/install_logstash {{ subnet.stdout }}
 
    - name: Remove setup_files directory
      shell: rm -r -f ~/setup_files
+
+   - name: Adding LOGSHASHIP variable to localhost
+     shell: sed -i -e '/export LOGSTASHIP=/d' /etc/environment && echo "export LOGSTASHIP=\"{{ subnet.stdout }}\"" >> /etc/environment
+     delegate_to: 127.0.0.1
+
