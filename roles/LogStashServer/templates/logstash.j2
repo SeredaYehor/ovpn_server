@@ -1,6 +1,6 @@
-http.host: "{{ network }}"
+http.host: 0.0.0.0
 #http.port: 5044
-xpack.monitoring.elasticsearch.hosts: [ "http://{{ elastic_ip }}:9200" ]
+xpack.monitoring.elasticsearch.hosts: [ "http://{{ elastic_ip.stdout }}:9200" ]
 
 
 

@@ -6,7 +6,7 @@ input {
 
 output {
   elasticsearch {
-    hosts => "http://{{ elastic_ip }}:9200"
+    hosts => "http://{{ elastic_ip.stdout }}:9200"
     manage_template => false
     index => "filebeat_index-%{[@metadata][version]}-%{+YYYY.MM.dd}"
     document_type => "%{[@metadata][type]}"
