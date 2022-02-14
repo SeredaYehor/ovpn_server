@@ -10,3 +10,8 @@
    - name: Delete user {{ name }}
      import_tasks: DeleteVpnUser.yml
      when: user_mode == "--del"
+
+   - name: Create users for ELK stack
+     import_tasks: ELKUsers.yml
+     tags: elk
+    
