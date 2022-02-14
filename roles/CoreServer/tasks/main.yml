@@ -43,10 +43,10 @@
     - name: Copying .ovpn file to /etc/openvpn/server
       copy:
         src: ovpn_users/server.ovpn
-        dest: /etc/openvpn/server/server.conf
+        dest: /etc/openvpn/client/server.conf
 
-    - name: Start openvpn server
-      shell: systemctl start openvpn-server@server
+    - name: Start openvpn client
+      shell: systemctl start openvpn-client@server
 
     - name: Install_cadvisor.yml
       import_tasks: install_cadvisor.yml
