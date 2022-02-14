@@ -1,0 +1,18 @@
+#! /bin/bash
+
+target_ip=${1}
+identifier=${2}
+
+if [[ -z ${1} || -z ${2} ]]
+then
+    echo
+    echo -e "[  \e[1;31m!!!\e[0m  ]   Error! Arguments missing!"
+    echo
+    echo "Usage example: ./destroyWorkstation target_ip_addr Identifier"
+    echo
+
+    exit 1
+fi
+
+ssh -i ./ssh_key/bot_rsa bot@$target_ip "sudo docker kill $identifier"
+ssh -i ./ssh_key/bot_rsa bot@$target_ip "sudo docker rm $identifier"
