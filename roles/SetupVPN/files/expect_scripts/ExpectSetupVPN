@@ -1,10 +1,7 @@
 #!/usr/bin/expect -f
-set timeout 10
+set timeout 60
 set openvpn_master_password [lindex $argv 0]
 spawn ~/scripts/setupVPN.sh
-match_max 100000
-expect_after timeout  
-send -- "yes\r"
 expect -exact "\r
 Enter New CA Key Passphrase: "
 send -- "${openvpn_master_password}\r"
