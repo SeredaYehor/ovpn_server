@@ -1,6 +1,6 @@
-server.host: "{{ network }}"
+server.host: 0.0.0.0
 server.port: 5601
 
-elasticsearch.hosts: [ "http://{{ elastic_ip }}:9200" ]
+elasticsearch.hosts: [ "http://{{ elastic_ip.stdout }}:9200" ]
 monitoring.ui.container.elasticsearch.enabled: false
 xpack.security.enabled: false
