@@ -21,11 +21,12 @@ then
 fi
 
 pubkey=`cat ${folder}/${keyname}.pub`
-for n in "${@:1}"
+for n in "${@:2}"
 do
 	echo "...create bot user on server ${n}"
 	ssh ${user}@${n} "sudo useradd -m bot && sudo passwd -d bot && sudo mkdir -p /home/bot/.ssh"
         ssh ${user}@${n} "sudo usermod --shell /bin/bash bot && sudo touch /home/bot/.ssh/authorized_keys"
+        ssh ${user}@${n} 'echo "bot ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/bot'
 
 	echo "...write new ssh-key to bot@${n}"
 	ssh ${user}@${n} "sudo chown ${user}:${user} /home/bot/.ssh/authorized_keys"
