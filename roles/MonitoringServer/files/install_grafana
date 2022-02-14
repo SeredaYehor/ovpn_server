@@ -1,4 +1,6 @@
-docker run -d -p 3000:3000 \
+#!/bin/bash
+
+docker run -d -p ${1}:3000:3000 \
 -v ~/configs/datasources/sample.yaml:/etc/grafana/provisioning/datasources/sample.yaml \
 -v ~/configs/dashboards:/etc/grafana/provisioning/dashboards \
 grafana/grafana
