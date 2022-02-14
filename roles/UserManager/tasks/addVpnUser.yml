@@ -9,5 +9,5 @@
     - name: Copying .ovpn file to current pc 'ovpn_users' directory
       fetch:
         src: ~/users/{{ name }}.ovpn
-        dest: ./roles/CoreServer/files/ovpn_users/{{ name }}.ovpn
+        dest: ./ovpn_users/{{ name }}.ovpn
         flat: yes
