@@ -116,7 +116,7 @@ setup.template.settings:
 # ------------------------------ Logstash Output -------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: ["{{ logstash_ip }}:5044"]
+  hosts: ["{{ logstash_ip.stdout }}:5044"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
