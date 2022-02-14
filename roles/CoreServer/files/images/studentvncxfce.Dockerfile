@@ -78,8 +78,8 @@ RUN rm -rf /headless/install
 
 ### Update wallpaper
 
-COPY a2lab.jpg /headless/.config/a2lab.jpg
-RUN sed -i 's/bg_sakuli.png/a2lab.jpg/g' /headless/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+#COPY a2lab.jpg /headless/.config/a2lab.jpg
+#RUN sed -i 's/bg_sakuli.png/a2lab.jpg/g' /headless/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 
 # Add desktop entries for each application
 
