@@ -1,4 +1,19 @@
 ---
+
+   - name: Installing OpenVPN client
+     apt:
+       pkg:
+         - openvpn
+       state: present
+
+   - name: Copying .ovpn file to /etc/openvpn/client
+     copy:
+       src: elastic.ovpn
+       dest: /etc/openvpn/client/elastic.conf
+
+   - name: Start openvpn client
+     shell: systemctl start openvpn-client@elastic
+
    - name: Get elastic docker container name
      shell: docker ps -a | grep "elasticsearch" | awk '{ print $NF }'
      register: image_name
@@ -12,10 +27,10 @@
      shell: docker rm {{ image_name.stdout }}
      when: image_name.stdout != ""
 
-   - name: Include configuration vars
-     include_vars:
-       file: ./ELK_configuration.yml
-   
+   - name: Identifying vpn network
+     shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
+     register: subnet
+
    - name: Pull docker elastic image
      shell: docker pull elasticsearch:7.16.2 
 
@@ -25,21 +40,25 @@
        path: ~/setup_files
 
    - name: Copy install_elastic script
-     template:
-       src: install_elastic.j2
+     copy:
+       src: install_elastic
        dest: ~/setup_files/install_elastic
        mode: "0700"
 
    - name: Copy elasticsearch conf file
-     template:
-       src: elasticsearch.j2
+     copy:
+       src: elasticsearch.yml
        dest: ~/setup_files/elasticsearch.yml
 
    - name: Execute install_elastic
-     shell: ~/setup_files/install_elastic
+     shell: ~/setup_files/install_elastic {{ subnet.stdout }}
 
    - name: Change max heap size
      shell: sysctl -w vm.max_map_count=262144
 
    - name: Remove setup_files directory
      shell: rm -r -f ~/setup_files
+
+   - name: Write linked_dirs file
+     shell: sed -i -e '/export ELASTICIP=/d' /etc/environment && echo "export ELASTICIP=\"{{ subnet.stdout }}\"" >> /etc/environment
+     delegate_to: 127.0.0.1
