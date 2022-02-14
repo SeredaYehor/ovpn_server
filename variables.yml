@@ -1,6 +1,6 @@
 openvpn_master_password: <ovpn_passwd>
 
-cadvisor_enabled: "true"
+cadvisor_enabled: "false"
 cadvisor_port: 8080
 filebeat_enabled: "true"
 
@@ -8,7 +8,4 @@ old_grafana_passwd: admin
 new_grafana_passwd: <grafana_passwd>
 
 cadvisor_server_ip: <host_ip>
-
-nginx_login: <login>
-nginx_passwd: <password>
 
