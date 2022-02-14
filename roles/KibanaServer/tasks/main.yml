@@ -1,4 +1,22 @@
 ---
+   - name: Installing OpenVPN client
+     apt:
+       pkg:
+         - openvpn
+       state: present
+
+   - name: Copying .ovpn file to /etc/openvpn/client
+     copy:
+       src: kibana.ovpn
+       dest: /etc/openvpn/client/kibana.conf
+
+   - name: Start openvpn client
+     shell: systemctl start openvpn-client@kibana
+
+   - name: Identifying vpn network
+     shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
+     register: subnet
+
    - name: Get kibana docker container name
      shell: docker ps -a | grep "kibana" | awk '{ print $NF }'
      register: image_name
@@ -24,6 +42,11 @@
        state: directory
        path: ~/setup_files
 
+   - name: Get elastic vpn ip
+     shell: "sudo printenv ELASTICIP"
+     delegate_to: 127.0.0.1
+     register: elastic_ip
+
    - name: Copy install_kibana script
      template:
        src: install_kibana.j2
@@ -39,4 +62,9 @@
        force: yes
 
    - name: Execute install_kibana script
-     shell: ~/setup_files/install_kibana
+     shell: ~/setup_files/install_kibana {{ subnet.stdout }}
+
+   - name: Write KIBANAIP environment var to localhost
+     shell: sed -i -e '/export KIBANAIP=/d' /etc/environment && echo "export KIBANAIP=\"{{ subnet.stdout }}\"" >> /etc/environment
+     delegate_to: 127.0.0.1
+
