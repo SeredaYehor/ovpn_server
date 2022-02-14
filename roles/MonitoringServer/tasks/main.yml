@@ -27,14 +27,29 @@
        dest: ~/configs/prometheus.yml
        mode: "0666"
 
+   - name: Installing OpenVPN client
+     apt:
+       pkg:
+         - openvpn
+       state: present
+
+   - name: Copying .ovpn file to /etc/openvpn/server
+     copy:
+       src: ovpn_users/monitor.ovpn
+       dest: /etc/openvpn/client/monitor.conf
+
+   - name: Start openvpn server
+     shell: systemctl start openvpn-client@monitor
+
+   - name: Identifying vpn network
+     shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
+     register: subnet
+
    - name: Install prometheus container
-     shell: docker run -d -v ~/configs/prometheus.yml:/etc/prometheus/prometheus.yml -p 127.0.0.1:9090:9090 prom/prometheus
+     shell: docker run -d -v ~/configs/prometheus.yml:/etc/prometheus/prometheus.yml -p {{ subnet.stdout }}:9090:9090 prom/prometheus
 
    - name: Remove configs directory
      shell: rm -r -f ~/configs
-
-   - name: Install nginx
-     import_tasks: nginx_setup.yml
 
    - name: Install grafana
      import_tasks: install_grafana.yml
