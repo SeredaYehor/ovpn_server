@@ -1,4 +1,0 @@
-network: 0.0.0.0
-elastic_ip: <host_ip>
-logstash_ip: <host_ip>
-
