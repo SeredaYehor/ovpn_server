@@ -1,3 +1,5 @@
-docker run -dt -p {{ network }}:5601:5601 \
+#!/bin/bash
+
+docker run -dt -p $1:5601:5601 \
 -v ~/setup_files/kibana.yml:/usr/share/kibana/config/kibana.yml \
--e "ELASTICSEARCH_HOSTS=http://{{ elastic_ip }}:9200" kibana:7.16.2
+-e "ELASTICSEARCH_HOSTS=http://{{ elastic_ip.stdout }}:9200" kibana:7.16.2
