@@ -22,12 +22,6 @@
     - name: Building ICEWM version of OS
       shell: ~/sourceFiles/images/buildContainer.sh icewm
 
-    - name: Installing OpenVPN client
-      apt:
-        pkg:
-          - openvpn
-        state: present
-
     - name: Copying createWorkstation script to /usr/local/bin
       copy:
         src: ./serverScripts/createWorkstation
@@ -40,13 +34,19 @@
         dest: /usr/local/bin/
         mode: "0777"
 
-    - name: Copying .ovpn file to /etc/openvpn/server
-      copy:
-        src: ovpn_users/server.ovpn
-        dest: /etc/openvpn/client/server.conf
+    - name: Including role OpenVPN
+      include_role:
+        name: OpenVPN
+      vars:
+        server_name: "server"
 
-    - name: Start openvpn client
-      shell: systemctl start openvpn-client@server
+    - name: Identifying vpn network
+      shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
+      register: subnet
+
+    - name: Adding COREIP var to local /etc/environment
+      shell: sed -i -e '/export COREIP=/d' /etc/environment && echo "export COREIP=\"{{ subnet.stdout }}\"" >> /etc/environment
+      delegate_to: 127.0.0.1
 
     - name: Install_cadvisor.yml
       import_tasks: install_cadvisor.yml
