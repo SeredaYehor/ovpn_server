@@ -1,38 +1,20 @@
 ---
-   - name: Installing OpenVPN client
-     apt:
-       pkg:
-         - openvpn
-       state: present
-
-   - name: Copying .ovpn file to /etc/openvpn/client
-     copy:
-       src: kibana.ovpn
-       dest: /etc/openvpn/client/kibana.conf
-
-   - name: Start openvpn client
-     shell: systemctl start openvpn-client@kibana
+   - name: Including role OpenVPN
+     include_role:
+       name: OpenVPN
+     vars:
+       server_name: "kibana"
 
    - name: Identifying vpn network
      shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
      register: subnet
 
-   - name: Get kibana docker container name
-     shell: docker ps -a | grep "kibana" | awk '{ print $NF }'
-     register: image_name
-
-   - name: Killing container
-     shell: docker kill {{ image_name.stdout }}
-     ignore_errors: True
-     when: image_name.stdout != ""
-
-   - name: Removing container
-     shell: docker rm {{ image_name.stdout }}
-     when: image_name.stdout != ""
-
-   - name: Include configuration vars
-     include_vars:
-       file: ./ELK_configuration.yml
+   - name: Including check working containers
+     include_role:
+       name: ServerDocker
+       tasks_from: manage_copy_images
+     vars:
+       container_name: "kibana"
 
    - name: Pull kibana docker image
      shell: docker pull kibana:7.16.2
