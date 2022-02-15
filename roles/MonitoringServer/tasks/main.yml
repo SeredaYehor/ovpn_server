@@ -1,20 +1,19 @@
 ---
-   - name: Get prometheus docker container name
-     shell: docker ps -a | grep "/bin/prometheus" | awk '{ print $NF }'
-     register: image_name
-
-   - name: Killing container
-     shell: docker kill {{ image_name.stdout }}
-     ignore_errors: True
-     when: image_name.stdout != ""
-
-   - name: Removing container
-     shell: docker rm {{ image_name.stdout }}
-     when: image_name.stdout != ""
+   - name: Including check working containers
+     include_role:
+       name: ServerDocker
+       tasks_from: manage_copy_images
+     vars:
+       container_name: "/bin/prometheus"
 
    - name: Include configuration vars
      include_vars:
        file: ./variables.yml
+
+   - name: Get core server vpn ip
+     shell: "sudo printenv COREIP"
+     delegate_to: 127.0.0.1
+     register: cadvisor_server_ip
 
    - name: Create /configs directory
      file:
@@ -27,23 +26,19 @@
        dest: ~/configs/prometheus.yml
        mode: "0666"
 
-   - name: Installing OpenVPN client
-     apt:
-       pkg:
-         - openvpn
-       state: present
-
-   - name: Copying .ovpn file to /etc/openvpn/server
-     copy:
-       src: ovpn_users/monitor.ovpn
-       dest: /etc/openvpn/client/monitor.conf
-
-   - name: Start openvpn server
-     shell: systemctl start openvpn-client@monitor
+   - name: Including role OpenVPN
+     include_role:
+       name: OpenVPN
+     vars:
+       server_name: "monitor"
 
    - name: Identifying vpn network
      shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
      register: subnet
+
+   - name: Adding MONITORINGIP to local /etc/environment
+     shell: sed -i -e '/export MONITORINGIP=/d' /etc/environment && echo "export MONITORINGIP=\"{{ subnet.stdout }}\"" >> /etc/environment
+     delegate_to: 127.0.0.1
 
    - name: Install prometheus container
      shell: docker run -d -v ~/configs/prometheus.yml:/etc/prometheus/prometheus.yml -p {{ subnet.stdout }}:9090:9090 prom/prometheus
