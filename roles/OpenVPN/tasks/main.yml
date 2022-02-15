@@ -1,0 +1,15 @@
+---
+   - name: Installing OpenVPN client
+     apt:
+       pkg:
+         - openvpn
+       state: present
+
+   - name: Copying {{ server_name }}.ovpn file to /etc/openvpn/client
+     copy:
+       src: "{{ server_name }}.ovpn"
+       dest: "/etc/openvpn/client/{{ server_name }}.conf"
+
+   - name: Start openvpn client
+     shell: systemctl start openvpn-client@{{ server_name }}
+
