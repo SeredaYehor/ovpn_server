@@ -35,4 +35,4 @@ scrape_configs:
     scrape_interval: 5s
     scrape_timeout: 5s
     static_configs:
-      - targets: ['{{ cadvisor_server_ip }}:{{ cadvisor_port }}']
+      - targets: ['{{ cadvisor_server_ip.stdout }}:{{ cadvisor_port }}']
