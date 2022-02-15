@@ -1,0 +1,13 @@
+---
+   - name: Get prometheus docker container name
+     shell: docker ps -a | grep "{{ container_name }}" | awk '{ print $NF }'
+     register: image_name
+
+   - name: Killing container
+     shell: docker kill {{ image_name.stdout }}
+     ignore_errors: True
+     when: image_name.stdout != ""
+
+   - name: Removing container
+     shell: docker rm {{ image_name.stdout }}
+     when: image_name.stdout != ""
