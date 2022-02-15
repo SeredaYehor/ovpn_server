@@ -1,31 +1,16 @@
 ---
+   - name: Including role OpenVPN
+     include_role:
+       name: OpenVPN
+     vars:
+       server_name: "elastic"
 
-   - name: Installing OpenVPN client
-     apt:
-       pkg:
-         - openvpn
-       state: present
-
-   - name: Copying .ovpn file to /etc/openvpn/client
-     copy:
-       src: elastic.ovpn
-       dest: /etc/openvpn/client/elastic.conf
-
-   - name: Start openvpn client
-     shell: systemctl start openvpn-client@elastic
-
-   - name: Get elastic docker container name
-     shell: docker ps -a | grep "elasticsearch" | awk '{ print $NF }'
-     register: image_name
-
-   - name: Killing container
-     shell: docker kill {{ image_name.stdout }}
-     ignore_errors: True
-     when: image_name.stdout != ""
-
-   - name: Removing container
-     shell: docker rm {{ image_name.stdout }}
-     when: image_name.stdout != ""
+   - name: Including check working containers
+     include_role:
+       name: ServerDocker
+       tasks_from: manage_copy_images
+     vars:
+       container_name: "elasticsearch"
 
    - name: Identifying vpn network
      shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
@@ -59,6 +44,6 @@
    - name: Remove setup_files directory
      shell: rm -r -f ~/setup_files
 
-   - name: Write linked_dirs file
+   - name: Adding ELASTICIP var to local /etc/environment
      shell: sed -i -e '/export ELASTICIP=/d' /etc/environment && echo "export ELASTICIP=\"{{ subnet.stdout }}\"" >> /etc/environment
      delegate_to: 127.0.0.1
