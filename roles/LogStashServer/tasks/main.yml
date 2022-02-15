@@ -1,30 +1,16 @@
 ---
-   - name: Installing OpenVPN client
-     apt:
-       pkg:
-         - openvpn
-       state: present
+   - name: Including role OpenVPN
+     include_role:
+       name: OpenVPN
+     vars:
+       server_name: "logstash"
 
-   - name: Copying .ovpn file to /etc/openvpn/client
-     copy:
-       src: logstash.ovpn
-       dest: /etc/openvpn/client/logstash.conf
-
-   - name: Start openvpn client
-     shell: systemctl start openvpn-client@logstash
-
-   - name: Get logstash docker container name
-     shell: docker ps -a | grep "logstash" | awk '{ print $NF }'
-     register: image_name
-
-   - name: Killing container
-     shell: docker kill {{ image_name.stdout }}
-     ignore_errors: True
-     when: image_name.stdout != ""
-
-   - name: Removing container
-     shell: docker rm {{ image_name.stdout }}
-     when: image_name.stdout != ""
+   - name: Including check working containers
+     include_role:
+       name: ServerDocker
+       tasks_from: manage_copy_images
+     vars:
+       container_name: "logstash"
 
    - name: Identifying vpn network
      shell: ip address | grep tun0 -A2 | grep "inet " | awk '{print $2}'
