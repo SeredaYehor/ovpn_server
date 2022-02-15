@@ -1,6 +1,6 @@
 #!/bin/bash
 
 ./manageUser --add monitor
-mv ./ovpn_users/monitor.ovpn ./roles/MontoringServer/files/ovpn_users/monitor.ovpn
+mv ./ovpn_users/monitor.ovpn ./roles/OpenVPN/files/monitor.ovpn
 ansible-playbook -i ./hosts ./SetupMonitorServer.yml
 

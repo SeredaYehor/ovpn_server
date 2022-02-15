@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#ansible-playbook -vv -i ./hosts -t elk ManageUser.yml
-#mv ./ovpn_users/elastic.ovpn ./roles/ElasticServer/files/
-#mv ./ovpn_users/logstash.ovpn ./roles/LogStashServer/files/logstash.ovpn
-#mv ./ovpn_users/kibana.ovpn ./roles/KibanaServer/files/
+ansible-playbook -vv -i ./hosts -t elk ManageUser.yml
+mv ./ovpn_users/elastic.ovpn ./roles/OpenVPN/files/elastic.ovpn
+mv ./ovpn_users/logstash.ovpn ./roles/OpenVPN/files/logstash.ovpn
+mv ./ovpn_users/kibana.ovpn ./roles/OpenVPN/files/kibana.ovpn
 ansible-playbook -i ./hosts SetupLogService.yml
